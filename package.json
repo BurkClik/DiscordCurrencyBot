@@ -2,6 +2,9 @@
   "name": "CurrencyBot",
   "version": "1.0.0",
   "description": "Latest information about currency for discord",
+  "scripts": {
+    "start": "node index.js"
+  },
   "main": "index.js",
   "author": "BurkClik",
   "license": "MIT",

@@ -8,6 +8,7 @@ const prefix = auth.prefix;
 
 const client = new Client();
 
+//! OOP ile currency.js den çek
 async function getData(currency) {
     const response = await fetch(auth.api + 'base=' + currency)
     const data = await response.json()
