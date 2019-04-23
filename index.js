@@ -10,10 +10,12 @@ const client = new Client();
 
 //! OOP ile currency.js den çek
 async function getData(currency) {
-    const response = await fetch(auth.api + 'base=' + currency)
+    const response = await fetch(auth.fromCurrency + currency + auth.toCurrency + auth.api)
     const data = await response.json()
-    return data.rates.TRY
+    return data["Realtime Currency Exchange Rate"]
 }
+//!
+
 
 client.on('ready', () => {
     console.log('I am ready!');
@@ -25,19 +27,22 @@ client.on('message', message => {
         .then(response => {
             switch (message.content) {
                 case "USD":
-                    if (Number(response.toFixed(2)) > 5.50) {
+                    if (Number(response["5. Exchange Rate"]).toFixed(3) > 5.5) {
                         const attachment = new Attachment('./images/money.PNG');
-                        message.channel.send(`${ message.author }` + response.toFixed(2) + `:dollar:`);
+                        message.channel.send(`${ message.author }` + Number(response["5. Exchange Rate"]).toFixed(3) + `:dollar:\n` + response["6. Last Refreshed"]);
                         message.channel.send(attachment);    
                     } else {
-                        message.channel.send(response.toFixed(2) + ':dollar:');
+                        message.channel.send(Number(response["5. Exchange Rate"]).toFixed(3) + ':dollar:\n' + response["6. Last Refreshed"]);
                     }
                     break;
                 case "EUR":
-                    message.channel.send(response.toFixed(2) + ':euro:');
+                    message.channel.send(Number(response["5. Exchange Rate"]).toFixed(3) + ':euro:\n' + response["6. Last Refreshed"]);
                     break;
                 case "GBP":
-                    message.channel.send(response.toFixed(2) + ':pound:');
+                    message.channel.send(Number(response["5. Exchange Rate"]).toFixed(3) + ':pound:\n' + response["6. Last Refreshed"]);
+                    break;
+                case "BTC":
+                    message.channel.send(Number(response["5. Exchange Rate"]).toFixed(0) + ' TRY\n' + response["6. Last Refreshed"]);
                     break;
                 // default:
                 //     message.channel.send("404!");
